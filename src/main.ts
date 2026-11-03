@@ -70,6 +70,7 @@ export async function main(argv: string[], deps: MainDeps): Promise<number> {
       out,
       signal: deps.signal,
       cwd: deps.cwd,
+      env: deps.env,
       stdinIsTTY: deps.stdinIsTTY,
       prompt: deps.prompt,
       createClient: deps.createClient,
@@ -99,7 +100,8 @@ function fail(
     const what = job
       ? ` ${job.kind === 'generation' ? 'Generation' : 'Screenshot set'} ${job.id} continues on Storeshot.`
       : '';
-    err = new CliError('INTERRUPTED', `Stopped (${signal}).${what}`, {
+    const note = ctx?.interrupt ? ` ${ctx.interrupt.note}` : '';
+    err = new CliError('INTERRUPTED', `Stopped (${signal}).${what}${note}`, {
       exitCode: signal === 'SIGTERM' ? 143 : 130,
       details: job ? { id: job.id } : undefined,
     });

@@ -1,4 +1,5 @@
 import type { CommandName } from '../args.js';
+import { capture } from './capture.js';
 import { credits } from './credits.js';
 import { devices } from './devices.js';
 import { generate } from './generate.js';
@@ -21,5 +22,6 @@ export const COMMAND_RUNNERS: Record<CommandName, Command> = {
   set,
   status,
   pull,
+  capture,
   schema,
 };

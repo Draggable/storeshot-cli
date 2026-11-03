@@ -51,3 +51,11 @@ describe('keyed()', () => {
     expect(t.keys).toHaveLength(1);
   });
 });
+
+describe('createCtx (SS-023)', () => {
+  it('carries the environment and no interrupt note by default', () => {
+    const t = testCtx(['credits'], { home, env: { PATH: '/bin' } });
+    expect(t.ctx.env.PATH).toBe('/bin');
+    expect(t.ctx.interrupt).toBeNull();
+  });
+});

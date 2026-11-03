@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "command": "capture",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "mode": "capture",
+    "platform": "android",
+    "folder": "<home>/screens",
+    "tool": {
+      "name": "adb",
+      "path": "<shims>/bin/adb",
+      "version": "Android Debug Bridge version 1.0.41"
+    },
+    "target": {
+      "kind": "android_device",
+      "id": "emulator-5554",
+      "name": "Pixel 8",
+      "os": "Android 15"
+    },
+    "preset": {
+      "device": "google_play_1080x2400",
+      "store": "google_play",
+      "width": 1080,
+      "height": 2400,
+      "orientation": "portrait",
+      "source": "api",
+      "viewport": null,
+      "deviceScaleFactor": null
+    },
+    "screens": [
+      {
+        "file": "01.png",
+        "path": "<home>/screens/01.png",
+        "bytes": 7285,
+        "sha256": "dcce7ef66e4be825d7138710719076ef37a2e9fed10dde79ff31df610118c055",
+        "width": 1080,
+        "height": 2400,
+        "orientation": "portrait",
+        "url": null,
+        "matchedDevice": "google_play_1080x2400",
+        "presetMatch": true,
+        "caption": "Screen 1",
+        "placeholderCaption": true
+      }
+    ],
+    "captions": {
+      "file": "<home>/screens/captions.json",
+      "screens": 1,
+      "written": true
+    },
+    "statusBar": {
+      "requested": true,
+      "method": "android_demo_mode",
+      "applied": true,
+      "restored": true
+    },
+    "next": "storeshot set screens --store google_play --app-name \"<app name>\""
+  },
+  "warnings": [
+    "google_play_1080x2400 is deprecated: use google_play_1080x2160.",
+    "captions.json: placeholder caption for 01.png; edit it before storeshot set."
+  ],
+  "error": null
+}

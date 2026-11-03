@@ -113,4 +113,27 @@ describe('storeshot (built bin)', () => {
       false,
     );
   });
+  test('capture --help, schema capture and one capture with the fake tools (SS-023)', async () => {
+    const help = await run(['capture', '--help'], { env });
+    assert.equal(help.code, 0);
+    assert.match(help.stdout, /storeshot capture ios\|android/);
+    assert.match(help.stdout, /--clean-status-bar/);
+    const s = await run(['schema', 'capture'], { env });
+    assert.equal(JSON.parse(s.stdout).$id, 'https://storeshot.art/schemas/cli/v1/capture.json');
+    const { installShims } = await import('../test/capture/shims/install.mjs');
+    const { makePng } = await import('../test/capture/shims/png.mjs');
+    const shims = installShims({ png: makePng(1080, 2400) });
+    const cwd = tmp('bincap');
+    try {
+      const r = await run(['capture', 'android', '--offline', '--json'], {
+        env: { ...env, ...shims.env },
+        cwd,
+      });
+      assert.equal(r.code, 0, r.stderr);
+      assert.ok(ajv.compile(SCHEMAS.capture)(JSON.parse(r.stdout)));
+    } finally {
+      shims.cleanup();
+      rmSync(cwd, { recursive: true, force: true });
+    }
+  });
 });

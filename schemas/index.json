@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "envelope": "envelope.schema.json",
   "captions": "captions.schema.json",
+  "capturePages": "capture-pages.schema.json",
   "commands": {
     "login": "login.schema.json",
     "logout": "logout.schema.json",
@@ -11,6 +12,7 @@
     "generate": "generate.schema.json",
     "set": "set.schema.json",
     "status": "status.schema.json",
-    "pull": "pull.schema.json"
+    "pull": "pull.schema.json",
+    "capture": "capture.schema.json"
   }
 }

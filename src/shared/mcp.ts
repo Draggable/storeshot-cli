@@ -8,6 +8,7 @@ export {
   MAX_UPLOAD_BYTES,
   type ImageFile,
 } from '@storeshot/mcp-src/files/readImage.js';
+export { sniff } from '@storeshot/mcp-src/images/sniff.js';
 export { TreeWriter, type WrittenFile } from '@storeshot/mcp-src/files/writeTree.js';
 export { isLoopbackUrl } from '@storeshot/mcp-src/files/download.js';
 export {

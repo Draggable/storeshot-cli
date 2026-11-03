@@ -48,4 +48,24 @@ describe('schemas/ (spec §11.2)', () => {
     for (const v of [...CAPTION_FIXTURES.valid, ...CAPTION_FIXTURES.invalid])
       expect([JSON.stringify(v), check(v)]).toEqual([JSON.stringify(v), runtime(v)]);
   });
+  it('capture-pages.schema.json and validatePages agree on every fixture', async () => {
+    const { PAGES_FIXTURES, validatePages } = await import('../src/capture/pages.js');
+    const check = ajv().compile(SCHEMAS['capture-pages']);
+    const runtime = (v: unknown) => {
+      try {
+        validatePages(v);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+    for (const v of [...PAGES_FIXTURES.valid, ...PAGES_FIXTURES.invalid])
+      expect([JSON.stringify(v), check(v)]).toEqual([JSON.stringify(v), runtime(v)]);
+  });
+  it('index names the capture schemas', () => {
+    expect(SCHEMAS.index).toMatchObject({
+      capturePages: 'capture-pages.schema.json',
+      commands: { capture: 'capture.schema.json' },
+    });
+  });
 });

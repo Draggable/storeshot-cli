@@ -3,7 +3,7 @@
 App Store and Google Play marketing screenshots from the command line, shell agents and CI. The
 command is `storeshot`. It sends raw app screenshots to the
 [Storeshot API](https://storeshot.art/docs/) and saves the finished images, fastlane folders
-included.
+included. Guide: https://storeshot.art/docs/cli/
 
 > Published on npm with provenance from its public source repository, `Draggable/storeshot-cli`
 > on GitHub. To run your own build of it instead, `npm ci && npm run build` there and run
@@ -200,6 +200,65 @@ storeshot pull <id> --out <dir> [--layout store|fastlane] [--force] [--kind set|
 
 Saves the images of a finished set (what succeeded, if some failed) or generation.
 
+### storeshot capture
+
+Raw screenshots from your own tools into a folder that `storeshot set` reads as is: PNG files plus
+a `captions.json`. It never downloads or installs anything and needs no login. New in 2.60.0.
+
+```sh
+storeshot capture ios --name 01-map --caption "Find every trail" --clean-status-bar
+storeshot capture android --serial emulator-5554 --name 02-offline --caption "Works offline"
+storeshot capture web http://localhost:8081 --route /,/settings --wait-for '[data-testid="ready"]'
+storeshot set screens --store app_store,google_play --app-name Trailmate
+```
+
+| Option                | Forms        | Meaning                                                                                   |
+| --------------------- | ------------ | ----------------------------------------------------------------------------------------- |
+| `--out <dir>`         | all          | Folder for the PNGs and `captions.json` (default `screens`).                              |
+| `--force`             | all          | Replace PNGs that already exist (else exit 12, nothing written).                          |
+| `--name <name>`       | one screen   | File name (default `NN.png`, web `NN-<route>.png`).                                       |
+| `--caption <text>`    | one screen   | Its caption in `captions.json` (else a placeholder you should edit).                      |
+| `--app-name <name>`   | all          | Sets `app.name` in `captions.json`.                                                       |
+| `--no-captions`       | all          | Leaves `captions.json` alone.                                                             |
+| `--device <id>`       | all          | Web: viewport preset (default `app_store_1290x2796`). Else: expected size, only reported. |
+| `--offline`           | all          | Use the device list bundled with the CLI.                                                 |
+| `--timeout <seconds>` | all          | Per tool call or page (default 30).                                                       |
+| `--udid <udid>`       | ios          | The simulator (default: the only booted iPhone/iPad simulator).                           |
+| `--serial <serial>`   | android      | The device (default: `ANDROID_SERIAL`, else the only one).                                |
+| `--clean-status-bar`  | ios, android | 9:41, full signal and battery for the capture; always restored afterwards.                |
+| `--settle <ms>`       | ios, android | Wait after the status bar change (default 1000).                                          |
+| `--reset-status-bar`  | ios, android | Only restore the status bar (after a run that was killed).                                |
+| `--route <path,…>`    | web          | Pages below the URL, in listing order.                                                    |
+| `--pages <file>`      | web          | `pages.json` (`storeshot schema capture-pages`).                                          |
+| `--orientation`       | web          | `portrait` (default) or `landscape`.                                                      |
+| `--wait-until`        | web          | `load` (default), `domcontentloaded` or `networkidle`.                                    |
+| `--wait-for <css>`    | web          | Wait until this selector is visible.                                                      |
+| `--delay <ms>`        | web          | Extra wait before each screenshot (default 300).                                          |
+| `--color-scheme`      | web          | `light` (default) or `dark`.                                                              |
+| `--locale <tag>`      | web          | Browser locale (default `en-US`).                                                         |
+
+Requirements:
+
+- **ios:** macOS with Xcode (`xcrun simctl`) and a booted iPhone or iPad simulator.
+- **android:** `adb` (Android SDK platform-tools) on `PATH`, and an emulator or a device with USB
+  debugging on.
+- **web:** Playwright 1.40 or later installed in the current project
+  (`npm install -D playwright && npx playwright install chromium`). `capture web` runs that
+  project's Playwright code, so run it only in projects you trust.
+
+The status bar override (`--clean-status-bar`) is undone on success, on errors, on Ctrl-C and on
+SIGTERM. A second Ctrl-C skips the cleanup; then run `storeshot capture ios --reset-status-bar` (or
+`android`).
+
+Limitations:
+
+- iOS `status_bar clear` removes every override, also ones you set yourself, and some simulator
+  runtimes ignore overrides.
+- Android demo mode varies by Android build, and leaving it also ends a demo mode you started
+  yourself.
+- A web build is not the native app (fonts, platform controls, safe areas).
+- Child processes never see `STORESHOT_*` variables.
+
 ### storeshot schema
 
 `storeshot schema` lists the JSON Schemas. `storeshot schema <command>` (or `envelope`,
@@ -240,28 +299,34 @@ On failure `ok` is `false` and `error` has `code`, `message`, `hint`, `status`, 
 partial set, a quote, the job id).
 
 Each command has a JSON Schema (2020-12) in the package's `schemas/` folder, printed by
-`storeshot schema <command>`. Within `schemaVersion` 1 changes are additive (new optional fields,
-new error codes). Anything else gets a new `schemaVersion`.
+`storeshot schema <command>` and published at its `$id`,
+`https://storeshot.art/schemas/cli/v1/<name>.json` (index:
+https://storeshot.art/schemas/cli/v1/index.json). Within `schemaVersion` 1 changes are additive
+(new optional fields, new error codes). Anything else gets a new `schemaVersion`.
 
 ## Exit codes
 
-| Code | Meaning                                                               |
-| ---- | --------------------------------------------------------------------- |
-| 0    | ok                                                                    |
-| 1    | internal error                                                        |
-| 2    | usage or invalid request                                              |
-| 3    | not logged in, or the key is invalid or lacks a scope                 |
-| 4    | not enough credits                                                    |
-| 5    | not found                                                             |
-| 6    | rate limited (see `retryAfterSeconds`)                                |
-| 7    | server error                                                          |
-| 8    | network error or timeout                                              |
-| 9    | the job ended and some images failed (refunded)                       |
-| 10   | still running: the wait timed out (the job continues)                 |
-| 11   | live spend not confirmed (`--yes`), declined, or over `--max-credits` |
-| 12   | local file problem (type, size, existing file, unsafe path)           |
-| 130  | interrupted (Ctrl-C): the job, if any, continues                      |
-| 143  | terminated (SIGTERM)                                                  |
+| Code | Meaning                                                                                   |
+| ---- | ----------------------------------------------------------------------------------------- |
+| 0    | ok                                                                                        |
+| 1    | internal error                                                                            |
+| 2    | usage or invalid request                                                                  |
+| 3    | not logged in, or the key is invalid or lacks a scope                                     |
+| 4    | not enough credits                                                                        |
+| 5    | not found                                                                                 |
+| 6    | rate limited (see `retryAfterSeconds`)                                                    |
+| 7    | server error                                                                              |
+| 8    | network error or timeout                                                                  |
+| 9    | the job ended and some images failed (refunded)                                           |
+| 10   | still running: the wait timed out (the job continues)                                     |
+| 11   | live spend not confirmed (`--yes`), declined, or over `--max-credits`                     |
+| 12   | local file or capture tool problem (type, size, existing file, unsafe path, missing tool) |
+| 130  | interrupted (Ctrl-C): the job, if any, continues                                          |
+| 143  | terminated (SIGTERM)                                                                      |
+
+`storeshot capture` uses 2 (usage, `NOT_A_SCREENSHOT`, several devices and no `--udid`/`--serial`),
+5 (no simulator or device), 12 (tool missing, capture failed, file exists, status bar not
+restored), 130 and 143.
 
 ## Credentials
 

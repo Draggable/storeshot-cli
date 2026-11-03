@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://storeshot.art/schemas/cli/v1/capture-pages.json",
+  "title": "storeshot capture web --pages pages.json",
+  "type": "object",
+  "properties": {
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "pattern": "^/"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$"
+          },
+          "caption": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "waitFor": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "delayMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 30000
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "pages"
+  ],
+  "additionalProperties": false
+}

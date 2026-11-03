@@ -51,6 +51,7 @@ export function testCtx(
     out,
     signal: (opts.controller ?? new AbortController()).signal,
     cwd: opts.home,
+    env,
     stdinIsTTY: opts.tty ?? false,
     now: opts.now ?? Date.now,
     createClient: (apiKey) => {

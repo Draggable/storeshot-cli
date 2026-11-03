@@ -1,4 +1,5 @@
 import { CAPTION_FILE_NAME } from './captions.js';
+import { NAME } from './capture/forms.js';
 
 /** Spec §11.2: the machine contract of `--json` (schemaVersion 1, additive changes only). */
 export const SCHEMA_VERSION = 1;
@@ -25,6 +26,8 @@ const GENERATION_STATUS: J = { enum: ['queued', 'running', 'succeeded', 'failed'
 const SET_STATUS: J = {
   enum: ['queued', 'running', 'succeeded', 'partially_failed', 'failed', 'canceled'],
 };
+
+const PLATFORM: J = { enum: ['ios', 'android', 'web'] };
 
 const waited = obj({ seconds: int, timedOut: bool });
 const savedFile = obj({
@@ -190,6 +193,60 @@ const DATA = {
     generation: nullable(generationView),
   }),
   pull,
+  capture: obj({
+    mode: { enum: ['capture', 'reset_status_bar'] },
+    platform: PLATFORM,
+    folder: nullable(str),
+    tool: obj({
+      name: { enum: ['xcrun', 'adb', 'playwright'] },
+      path: str,
+      version: nullable(str),
+    }),
+    target: nullable(
+      obj({
+        kind: { enum: ['simulator', 'android_device', 'browser'] },
+        id: str,
+        name: nullable(str),
+        os: nullable(str),
+      }),
+    ),
+    preset: nullable(
+      obj({
+        device: str,
+        store: STORE,
+        width: int,
+        height: int,
+        orientation: ORIENTATION,
+        viewport: nullable(obj({ width: int, height: int })),
+        deviceScaleFactor: nullable(num),
+        source: { enum: ['api', 'bundled'] },
+      }),
+    ),
+    screens: arr(
+      obj({
+        file: str,
+        path: str,
+        bytes: int,
+        sha256: str,
+        width: int,
+        height: int,
+        orientation: ORIENTATION,
+        url: nullable(str),
+        matchedDevice: nullable(str),
+        presetMatch: nullable(bool),
+        caption: nullable(str),
+        placeholderCaption: bool,
+      }),
+    ),
+    captions: nullable(obj({ file: str, screens: int, written: bool })),
+    statusBar: obj({
+      requested: bool,
+      method: nullable({ enum: ['simctl_status_bar', 'android_demo_mode'] }),
+      applied: bool,
+      restored: nullable(bool),
+    }),
+    next: nullable(str),
+  }),
 };
 export type DataCommand = keyof typeof DATA;
 
@@ -250,16 +307,44 @@ const CAPTIONS: J = {
   additionalProperties: false,
 };
 
+const CAPTURE_PAGES: J = {
+  $schema: DRAFT,
+  $id: `${BASE}capture-pages.json`,
+  title: 'storeshot capture web --pages pages.json',
+  type: 'object',
+  properties: {
+    pages: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 10,
+      items: obj(
+        {
+          path: { type: 'string', minLength: 1, maxLength: 2000, pattern: '^/' },
+          name: { type: 'string', maxLength: 100, pattern: NAME.source },
+          caption: { type: 'string', minLength: 1, maxLength: 1000 },
+          waitFor: { type: 'string', minLength: 1, maxLength: 500 },
+          delayMs: { type: 'integer', minimum: 0, maximum: 30_000 },
+        },
+        ['name', 'caption', 'waitFor', 'delayMs'],
+      ),
+    },
+  },
+  required: ['pages'],
+  additionalProperties: false,
+};
+
 const commands = Object.keys(DATA) as DataCommand[];
 export const SCHEMAS: Record<string, J> = {
   index: {
     schemaVersion: SCHEMA_VERSION,
     envelope: 'envelope.schema.json',
     captions: 'captions.schema.json',
+    capturePages: 'capture-pages.schema.json',
     commands: Object.fromEntries(commands.map((c) => [c, `${c}.schema.json`])),
   },
   envelope: envelopeOf(null, {}),
   captions: CAPTIONS,
+  'capture-pages': CAPTURE_PAGES,
   ...Object.fromEntries(commands.map((c) => [c, envelopeOf(c, DATA[c])])),
 };
 export const schemaFileName = (name: string) =>

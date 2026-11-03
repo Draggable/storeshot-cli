@@ -30,7 +30,12 @@ export type CliCode =
   | 'SPEND_DECLINED'
   | 'SPEND_LIMIT_EXCEEDED'
   | 'INTERRUPTED'
-  | 'INTERNAL_ERROR';
+  | 'INTERNAL_ERROR'
+  | 'CAPTURE_TOOL_MISSING'
+  | 'CAPTURE_DEVICE_NOT_FOUND'
+  | 'CAPTURE_DEVICE_AMBIGUOUS'
+  | 'CAPTURE_FAILED'
+  | 'STATUS_BAR_NOT_RESTORED';
 export type AnyCode = CliCode | LocalErrorCode | ErrorCode | SdkErrorCode;
 export type KeySource = 'flag' | 'env' | 'stored';
 
@@ -103,6 +108,11 @@ const CLI: Record<CliCode, number> = {
   SPEND_LIMIT_EXCEEDED: 11,
   INTERRUPTED: 130,
   INTERNAL_ERROR: 1,
+  CAPTURE_TOOL_MISSING: 12,
+  CAPTURE_DEVICE_NOT_FOUND: 5,
+  CAPTURE_DEVICE_AMBIGUOUS: 2,
+  CAPTURE_FAILED: 12,
+  STATUS_BAR_NOT_RESTORED: 12,
 };
 const TABLE: Record<string, number> = { ...API, ...SDK, ...LOCAL, ...CLI };
 
@@ -239,6 +249,15 @@ const HINTS: Record<string, (h: HintInput) => string> = {
     h.details?.id
       ? `It continues on Storeshot: storeshot status ${idOf(h)}.`
       : 'Nothing was created.',
+  CAPTURE_TOOL_MISSING: () =>
+    'storeshot capture never installs tools: install the one named above, then run it again.',
+  CAPTURE_DEVICE_NOT_FOUND: () =>
+    'Start the simulator or emulator first (or plug in the device), then run it again.',
+  CAPTURE_DEVICE_AMBIGUOUS: () => 'Pass --udid (iOS) or --serial (Android): see details.devices.',
+  CAPTURE_FAILED: () =>
+    'Check that the app shows the screen you want, then run it again (raise --timeout if it is slow).',
+  STATUS_BAR_NOT_RESTORED: () =>
+    'Run the command named above, or storeshot capture ios|android --reset-status-bar.',
   INTERNAL_ERROR: () =>
     'Run it again; if it happens again, report it to support@storeshot.art with the output.',
   INVALID_INPUT: () =>

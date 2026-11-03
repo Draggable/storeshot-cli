@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "command": "capture",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "mode": "capture",
+    "platform": "web",
+    "folder": "<home>/screens",
+    "tool": {
+      "name": "playwright",
+      "path": "<home>/node_modules/playwright",
+      "version": "1.64.1"
+    },
+    "target": {
+      "kind": "browser",
+      "id": "chromium",
+      "name": "Chromium",
+      "os": null
+    },
+    "preset": {
+      "device": "app_store_1290x2796",
+      "store": "app_store",
+      "width": 1290,
+      "height": 2796,
+      "orientation": "portrait",
+      "source": "bundled",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3
+    },
+    "screens": [
+      {
+        "file": "01-home.png",
+        "path": "<home>/screens/01-home.png",
+        "bytes": 7779,
+        "sha256": "c7f7f7f7d48ae30259559960c7756560d6b168841d0ce2b2a6cfbaf614f7458a",
+        "width": 1290,
+        "height": 2796,
+        "orientation": "portrait",
+        "url": "http://127.0.0.1:9/",
+        "matchedDevice": "app_store_1290x2796",
+        "presetMatch": true,
+        "caption": "Home",
+        "placeholderCaption": true
+      },
+      {
+        "file": "02-settings.png",
+        "path": "<home>/screens/02-settings.png",
+        "bytes": 7779,
+        "sha256": "c7f7f7f7d48ae30259559960c7756560d6b168841d0ce2b2a6cfbaf614f7458a",
+        "width": 1290,
+        "height": 2796,
+        "orientation": "portrait",
+        "url": "http://127.0.0.1:9/settings",
+        "matchedDevice": "app_store_1290x2796",
+        "presetMatch": true,
+        "caption": "Settings",
+        "placeholderCaption": true
+      }
+    ],
+    "captions": {
+      "file": "<home>/screens/captions.json",
+      "screens": 2,
+      "written": true
+    },
+    "statusBar": {
+      "requested": false,
+      "method": null,
+      "applied": false,
+      "restored": null
+    },
+    "next": "storeshot set screens --store app_store --app-name \"<app name>\""
+  },
+  "warnings": [
+    "captions.json: placeholder caption for 01-home.png; edit it before storeshot set.",
+    "captions.json: placeholder caption for 02-settings.png; edit it before storeshot set."
+  ],
+  "error": null
+}

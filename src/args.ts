@@ -11,6 +11,7 @@ export type CommandName =
   | 'set'
   | 'status'
   | 'pull'
+  | 'capture'
   | 'schema';
 type Kind = 'boolean' | 'string' | 'list' | 'int';
 export interface FlagSpec {
@@ -233,6 +234,108 @@ export const COMMANDS: Record<CommandName, CommandSpec> = {
     positionals: [1, 1],
     flags: { kind: KIND, layout: LAYOUT, ...OUT },
   },
+  capture: {
+    summary: 'Raw screenshots from an iOS Simulator, an Android emulator/device or a web build.',
+    usage:
+      'storeshot capture ios|android [options]   |   storeshot capture web <url> [--route <path>]… [options]',
+    positionals: [1, 2],
+    flags: {
+      out: {
+        kind: 'string',
+        value: '<dir>',
+        help: 'Folder for the PNGs and captions.json (default screens).',
+      },
+      force: { kind: 'boolean', help: 'Replace PNGs that already exist.' },
+      name: {
+        kind: 'string',
+        value: '<name>',
+        help: 'File name (default NN, web NN-<route>); one screen only.',
+      },
+      caption: {
+        kind: 'string',
+        value: '<text>',
+        help: 'Caption written to captions.json; one screen only.',
+      },
+      'app-name': { kind: 'string', value: '<name>', help: 'Set app.name in captions.json.' },
+      'no-captions': { kind: 'boolean', help: 'Do not create or change captions.json.' },
+      device: {
+        kind: 'string',
+        value: '<id>',
+        help: '(web) viewport preset, default app_store_1290x2796; (ios, android) expected size, only reported.',
+      },
+      offline: { kind: 'boolean', help: 'Use the device list bundled with this CLI (no network).' },
+      timeout: {
+        kind: 'int',
+        value: '<seconds>',
+        min: 1,
+        max: 600,
+        help: 'Per tool call or page (default 30).',
+      },
+      udid: {
+        kind: 'string',
+        value: '<udid>',
+        help: '(ios) The simulator (default: the only booted one).',
+      },
+      serial: {
+        kind: 'string',
+        value: '<serial>',
+        help: '(android) The device (default: ANDROID_SERIAL, else the only one).',
+      },
+      'clean-status-bar': {
+        kind: 'boolean',
+        help: '(ios, android) 9:41, full signal and battery for the capture; restored afterwards.',
+      },
+      settle: {
+        kind: 'int',
+        value: '<ms>',
+        min: 0,
+        max: 10_000,
+        help: '(ios, android) Wait after the status bar change (default 1000).',
+      },
+      'reset-status-bar': {
+        kind: 'boolean',
+        help: '(ios, android) Only restore the status bar (after a killed run); captures nothing.',
+      },
+      route: {
+        kind: 'list',
+        value: '<path,…>',
+        help: '(web) Pages below <url>, in listing order (default: <url> itself).',
+      },
+      pages: {
+        kind: 'string',
+        value: '<file>',
+        help: '(web) pages.json: path, name, caption, waitFor, delayMs per page (storeshot schema capture-pages).',
+      },
+      orientation: {
+        kind: 'string',
+        value: 'portrait|landscape',
+        help: '(web) Viewport orientation (default portrait).',
+      },
+      'wait-until': {
+        kind: 'string',
+        value: 'load|domcontentloaded|networkidle',
+        help: '(web) Navigation event to wait for (default load).',
+      },
+      'wait-for': {
+        kind: 'string',
+        value: '<css>',
+        help: '(web) Wait until this selector is visible.',
+      },
+      delay: {
+        kind: 'int',
+        value: '<ms>',
+        min: 0,
+        max: 30_000,
+        help: '(web) Extra wait before each screenshot (default 300).',
+      },
+      'color-scheme': {
+        kind: 'string',
+        value: 'light|dark',
+        help: '(web) prefers-color-scheme (default light).',
+      },
+      locale: { kind: 'string', value: '<tag>', help: '(web) Browser locale (default en-US).' },
+    },
+  },
   schema: {
     summary: 'Print the JSON Schema of a command (offline).',
     usage: 'storeshot schema [command]',
@@ -317,7 +420,7 @@ const EXIT_HELP = [
   '  3  not logged in/auth  4  not enough credits    5  not found',
   '  6  rate limited        7  server error          8  network error',
   '  9  some images failed  10 still running (wait timed out)',
-  '  11 live spend not confirmed / over --max-credits  12 local file problem',
+  '  11 live spend not confirmed / over --max-credits  12 local file or capture tool problem',
   '  130 interrupted (Ctrl-C)  143 terminated',
 ].join('\n');
 

@@ -13,6 +13,10 @@ export interface Ctx {
   out: Output;
   signal: AbortSignal;
   cwd: string;
+  /** The process environment (PATH, ANDROID_SERIAL for capture; SS-023 spec §4). */
+  env: Record<string, string | undefined>;
+  /** Set by capture while it holds device state; main.fail() appends the note (SS-023 §10.3). */
+  interrupt: { note: string } | null;
   stdinIsTTY: boolean;
   store: CredentialStore;
   pending: PendingStore;
@@ -41,12 +45,14 @@ export interface CtxInput {
   createClient?: (apiKey: string | null) => Storeshot;
   prompt: (question: string) => Promise<string | null>;
   pollMs?: number;
+  env?: Record<string, string | undefined>;
 }
 
 export function createCtx(input: CtxInput): Ctx {
   const warn = (m: string) => input.out.warn(m);
   return {
     ...input,
+    env: input.env ?? {},
     now: input.now ?? Date.now,
     createClient:
       input.createClient ??
@@ -58,6 +64,7 @@ export function createCtx(input: CtxInput): Ctx {
     keyEnvironment: null,
     keyId: null,
     job: null,
+    interrupt: null,
     client: null,
   };
 }

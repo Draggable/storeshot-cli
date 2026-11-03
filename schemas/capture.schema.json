@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://storeshot.art/schemas/cli/v1/capture.json",
+  "title": "storeshot capture --json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "command": {
+      "const": "capture"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "exitCode": {
+      "type": "integer"
+    },
+    "data": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "enum": [
+                "capture",
+                "reset_status_bar"
+              ]
+            },
+            "platform": {
+              "enum": [
+                "ios",
+                "android",
+                "web"
+              ]
+            },
+            "folder": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tool": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "enum": [
+                    "xcrun",
+                    "adb",
+                    "playwright"
+                  ]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "version": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "path",
+                "version"
+              ],
+              "additionalProperties": false
+            },
+            "target": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "simulator",
+                        "android_device",
+                        "browser"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "os": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "id",
+                    "name",
+                    "os"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "preset": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "device": {
+                      "type": "string"
+                    },
+                    "store": {
+                      "enum": [
+                        "app_store",
+                        "google_play"
+                      ]
+                    },
+                    "width": {
+                      "type": "integer"
+                    },
+                    "height": {
+                      "type": "integer"
+                    },
+                    "orientation": {
+                      "enum": [
+                        "portrait",
+                        "landscape"
+                      ]
+                    },
+                    "viewport": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "integer"
+                            },
+                            "height": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "width",
+                            "height"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "deviceScaleFactor": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "source": {
+                      "enum": [
+                        "api",
+                        "bundled"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "device",
+                    "store",
+                    "width",
+                    "height",
+                    "orientation",
+                    "viewport",
+                    "deviceScaleFactor",
+                    "source"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "screens": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "bytes": {
+                    "type": "integer"
+                  },
+                  "sha256": {
+                    "type": "string"
+                  },
+                  "width": {
+                    "type": "integer"
+                  },
+                  "height": {
+                    "type": "integer"
+                  },
+                  "orientation": {
+                    "enum": [
+                      "portrait",
+                      "landscape"
+                    ]
+                  },
+                  "url": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matchedDevice": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "presetMatch": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "caption": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "placeholderCaption": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "file",
+                  "path",
+                  "bytes",
+                  "sha256",
+                  "width",
+                  "height",
+                  "orientation",
+                  "url",
+                  "matchedDevice",
+                  "presetMatch",
+                  "caption",
+                  "placeholderCaption"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "captions": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "file": {
+                      "type": "string"
+                    },
+                    "screens": {
+                      "type": "integer"
+                    },
+                    "written": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "file",
+                    "screens",
+                    "written"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "statusBar": {
+              "type": "object",
+              "properties": {
+                "requested": {
+                  "type": "boolean"
+                },
+                "method": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "simctl_status_bar",
+                        "android_demo_mode"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "applied": {
+                  "type": "boolean"
+                },
+                "restored": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "requested",
+                "method",
+                "applied",
+                "restored"
+              ],
+              "additionalProperties": false
+            },
+            "next": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "mode",
+            "platform",
+            "folder",
+            "tool",
+            "target",
+            "preset",
+            "screens",
+            "captions",
+            "statusBar",
+            "next"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "hint": {
+              "type": "string"
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "requestId": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "docUrl": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "retryAfterSeconds": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "details": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "hint",
+            "status",
+            "requestId",
+            "docUrl",
+            "retryAfterSeconds"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "command",
+    "ok",
+    "exitCode",
+    "data",
+    "warnings",
+    "error"
+  ],
+  "additionalProperties": false
+}

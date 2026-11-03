@@ -1,6 +1,6 @@
 {
   "name": "@draggable/storeshot-cli",
-  "version": "2.59.0",
+  "version": "2.60.0",
   "description": "Storeshot CLI: App Store and Google Play marketing screenshots from the command line and CI.",
   "keywords": [
     "storeshot",
