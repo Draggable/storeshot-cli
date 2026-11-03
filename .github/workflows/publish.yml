@@ -1,0 +1,92 @@
+name: Publish to npm
+
+# Publishes @draggable/storeshot-cli (bin storeshot) with npm provenance from this public
+# repository (owner decision of 3 Nov 2026). Off unless the repository variable CLI_PUBLISH_ENABLED
+# is 'true'. A v* tag push publishes; a manual run is a dry run unless dry-run is unticked. A
+# version already on npm is skipped, so re-running is safe. The token is the Draggable organisation
+# secret NPM_TOKEN.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'npm publish --dry-run (uploads nothing)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Check and publish
+    if: vars.CLI_PUBLISH_ENABLED == 'true' && github.repository == 'Draggable/storeshot-cli'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Package version matches the tag
+        if: github.ref_type == 'tag'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [[ "v$version" != "$TAG" ]]; then
+            echo "package.json has $version but the tag is $TAG" >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Built bin
+        run: npm run test:bin
+
+      - name: Package check
+        run: npm run check:package
+
+      - name: Skip a version that is already on npm
+        id: published
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on npm: nothing to publish"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish (npm provenance)
+        if: steps.published.outputs.skip != 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          STORESHOT_CLI_PUBLISH: '1'
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+        run: |
+          if [[ "$DRY_RUN" == "true" ]]; then
+            npm publish --provenance --access public --dry-run
+          else
+            npm publish --provenance --access public
+          fi

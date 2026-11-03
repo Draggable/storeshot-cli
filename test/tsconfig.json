@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@storeshot/mcp-src/*": [
+        "../vendor/mcp/src/*"
+      ],
+      "@storeshot/mcp-test/*": [
+        "../vendor/mcp/test/*"
+      ]
+    }
+  },
+  "include": [
+    "../src",
+    "."
+  ]
+}

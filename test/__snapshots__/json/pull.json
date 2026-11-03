@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "command": "pull",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "kind": "screenshot_set",
+    "id": "5c1e0000-0000-4000-8000-000000000001",
+    "folder": "<home>/pulled",
+    "layout": "store",
+    "files": [
+      {
+        "path": "<home>/pulled/app_store/app_store_1290x2796/01.png",
+        "relativePath": "app_store/app_store_1290x2796/01.png",
+        "bytes": 1,
+        "sha256": "5c62e091b8c0565f1bafad0dad5934276143ae2ccef7a5381e8ada5b1a8d26d2",
+        "store": null,
+        "device": null,
+        "position": null
+      }
+    ],
+    "complete": true,
+    "missing": []
+  },
+  "warnings": [],
+  "error": null
+}

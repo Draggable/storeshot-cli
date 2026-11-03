@@ -1,0 +1,64 @@
+{
+  "name": "@draggable/storeshot-cli",
+  "version": "2.59.0",
+  "description": "Storeshot CLI: App Store and Google Play marketing screenshots from the command line and CI.",
+  "keywords": [
+    "storeshot",
+    "cli",
+    "app store",
+    "google play",
+    "screenshots",
+    "fastlane"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Draggable/storeshot-cli.git"
+  },
+  "homepage": "https://storeshot.art/docs/cli/",
+  "bugs": {
+    "email": "support@storeshot.art"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "storeshot": "dist/bin.js"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/tsconfig.json",
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
+    "test:bin": "node --test 'test-dist/*.test.mjs'",
+    "check:package": "node scripts/check-package.mjs",
+    "prepublishOnly": "node scripts/prepublish-guard.mjs"
+  },
+  "dependencies": {
+    "@draggable/storeshot-sdk": "2.55.0",
+    "yauzl": "3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.9.3",
+    "@types/yauzl": "3.4.0",
+    "ajv": "8.20.0",
+    "esbuild": "0.27.7",
+    "typescript": "5.9.3",
+    "vitest": "4.1.8"
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://storeshot.art/schemas/cli/v1/set.json",
+  "title": "storeshot set --json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "command": {
+      "const": "set"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "exitCode": {
+      "type": "integer"
+    },
+    "data": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "enum": [
+                "quote",
+                "set"
+              ]
+            },
+            "quote": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "environment": {
+                      "enum": [
+                        "test",
+                        "live"
+                      ]
+                    },
+                    "images": {
+                      "type": "integer"
+                    },
+                    "credits": {
+                      "type": "integer"
+                    },
+                    "availableCredits": {
+                      "type": "integer"
+                    },
+                    "sufficient": {
+                      "type": "boolean"
+                    },
+                    "screens": {
+                      "type": "integer"
+                    },
+                    "breakdown": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "store": {
+                            "enum": [
+                              "app_store",
+                              "google_play"
+                            ]
+                          },
+                          "device": {
+                            "type": "string"
+                          },
+                          "width": {
+                            "type": "integer"
+                          },
+                          "height": {
+                            "type": "integer"
+                          },
+                          "orientation": {
+                            "enum": [
+                              "portrait",
+                              "landscape"
+                            ]
+                          },
+                          "images": {
+                            "type": "integer"
+                          },
+                          "defaulted": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "store",
+                          "device",
+                          "width",
+                          "height",
+                          "orientation",
+                          "images",
+                          "defaulted"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "environment",
+                    "images",
+                    "credits",
+                    "availableCredits",
+                    "sufficient",
+                    "screens",
+                    "breakdown"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "set": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "partially_failed",
+                        "failed",
+                        "canceled"
+                      ]
+                    },
+                    "environment": {
+                      "enum": [
+                        "test",
+                        "live"
+                      ]
+                    },
+                    "appName": {
+                      "type": "string"
+                    },
+                    "images": {
+                      "type": "integer"
+                    },
+                    "counts": {
+                      "type": "object",
+                      "properties": {
+                        "queued": {
+                          "type": "integer"
+                        },
+                        "running": {
+                          "type": "integer"
+                        },
+                        "succeeded": {
+                          "type": "integer"
+                        },
+                        "failed": {
+                          "type": "integer"
+                        },
+                        "canceled": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "failed",
+                        "canceled"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "creditsCharged": {
+                      "type": "integer"
+                    },
+                    "creditsRefunded": {
+                      "type": "integer"
+                    },
+                    "stores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "store": {
+                            "enum": [
+                              "app_store",
+                              "google_play"
+                            ]
+                          },
+                          "devices": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "featureGraphic": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "store",
+                          "devices",
+                          "featureGraphic"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status",
+                    "environment",
+                    "appName",
+                    "images",
+                    "counts",
+                    "creditsCharged",
+                    "creditsRefunded",
+                    "stores"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "waited": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "seconds": {
+                      "type": "integer"
+                    },
+                    "timedOut": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "seconds",
+                    "timedOut"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "download": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "generation",
+                        "screenshot_set"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "folder": {
+                      "type": "string"
+                    },
+                    "layout": {
+                      "enum": [
+                        "store",
+                        "fastlane"
+                      ]
+                    },
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string"
+                          },
+                          "relativePath": {
+                            "type": "string"
+                          },
+                          "bytes": {
+                            "type": "integer"
+                          },
+                          "sha256": {
+                            "type": "string"
+                          },
+                          "store": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "app_store",
+                                  "google_play"
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "device": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "position": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "path",
+                          "relativePath",
+                          "bytes",
+                          "sha256",
+                          "store",
+                          "device",
+                          "position"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "complete": {
+                      "type": "boolean"
+                    },
+                    "missing": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "store": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "app_store",
+                                  "google_play"
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "device": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "position": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "errorCode": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "store",
+                          "device",
+                          "position",
+                          "status",
+                          "errorCode"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "id",
+                    "folder",
+                    "layout",
+                    "files",
+                    "complete",
+                    "missing"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "mode",
+            "quote",
+            "set",
+            "waited",
+            "download"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "hint": {
+              "type": "string"
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "requestId": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "docUrl": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "retryAfterSeconds": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "details": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "hint",
+            "status",
+            "requestId",
+            "docUrl",
+            "retryAfterSeconds"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "command",
+    "ok",
+    "exitCode",
+    "data",
+    "warnings",
+    "error"
+  ],
+  "additionalProperties": false
+}

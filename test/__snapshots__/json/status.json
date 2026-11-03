@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "command": "status",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "kind": "screenshot_set",
+    "id": "5c1e0000-0000-4000-8000-000000000001",
+    "status": "succeeded",
+    "final": true,
+    "environment": "test",
+    "waited": null,
+    "set": {
+      "id": "5c1e0000-0000-4000-8000-000000000001",
+      "status": "succeeded",
+      "environment": "test",
+      "appName": "Trailmate",
+      "images": 4,
+      "counts": {
+        "queued": 0,
+        "running": 0,
+        "succeeded": 4,
+        "failed": 0,
+        "canceled": 0
+      },
+      "creditsCharged": 0,
+      "creditsRefunded": 0,
+      "stores": [
+        {
+          "store": "app_store",
+          "devices": [
+            "app_store_1290x2796"
+          ],
+          "featureGraphic": false
+        },
+        {
+          "store": "google_play",
+          "devices": [
+            "google_play_1080x2160"
+          ],
+          "featureGraphic": true
+        }
+      ]
+    },
+    "generation": null
+  },
+  "warnings": [],
+  "error": null
+}

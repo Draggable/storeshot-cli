@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "command": "logout",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "removed": [],
+    "credentialsFile": "<home>/config/storeshot/cli-credentials.json",
+    "revokeUrl": "https://console.storeshot.art/keys"
+  },
+  "warnings": [],
+  "error": null
+}

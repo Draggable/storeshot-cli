@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://storeshot.art/schemas/cli/v1/status.json",
+  "title": "storeshot status --json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "command": {
+      "const": "status"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "exitCode": {
+      "type": "integer"
+    },
+    "data": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "generation",
+                "screenshot_set"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "final": {
+              "type": "boolean"
+            },
+            "environment": {
+              "enum": [
+                "test",
+                "live"
+              ]
+            },
+            "waited": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "seconds": {
+                      "type": "integer"
+                    },
+                    "timedOut": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "seconds",
+                    "timedOut"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "set": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "partially_failed",
+                        "failed",
+                        "canceled"
+                      ]
+                    },
+                    "environment": {
+                      "enum": [
+                        "test",
+                        "live"
+                      ]
+                    },
+                    "appName": {
+                      "type": "string"
+                    },
+                    "images": {
+                      "type": "integer"
+                    },
+                    "counts": {
+                      "type": "object",
+                      "properties": {
+                        "queued": {
+                          "type": "integer"
+                        },
+                        "running": {
+                          "type": "integer"
+                        },
+                        "succeeded": {
+                          "type": "integer"
+                        },
+                        "failed": {
+                          "type": "integer"
+                        },
+                        "canceled": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "failed",
+                        "canceled"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "creditsCharged": {
+                      "type": "integer"
+                    },
+                    "creditsRefunded": {
+                      "type": "integer"
+                    },
+                    "stores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "store": {
+                            "enum": [
+                              "app_store",
+                              "google_play"
+                            ]
+                          },
+                          "devices": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "featureGraphic": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "store",
+                          "devices",
+                          "featureGraphic"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status",
+                    "environment",
+                    "appName",
+                    "images",
+                    "counts",
+                    "creditsCharged",
+                    "creditsRefunded",
+                    "stores"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "generation": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "input": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "uploadId": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "failed",
+                        "canceled"
+                      ]
+                    },
+                    "environment": {
+                      "enum": [
+                        "test",
+                        "live"
+                      ]
+                    },
+                    "store": {
+                      "enum": [
+                        "app_store",
+                        "google_play"
+                      ]
+                    },
+                    "device": {
+                      "type": "string"
+                    },
+                    "width": {
+                      "type": "integer"
+                    },
+                    "height": {
+                      "type": "integer"
+                    },
+                    "creditsCharged": {
+                      "type": "integer"
+                    },
+                    "creditsRefunded": {
+                      "type": "integer"
+                    },
+                    "error": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "message": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "code",
+                            "message"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "input",
+                    "uploadId",
+                    "id",
+                    "status",
+                    "environment",
+                    "store",
+                    "device",
+                    "width",
+                    "height",
+                    "creditsCharged",
+                    "creditsRefunded",
+                    "error"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "status",
+            "final",
+            "environment",
+            "waited",
+            "set",
+            "generation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "hint": {
+              "type": "string"
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "requestId": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "docUrl": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "retryAfterSeconds": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "details": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "hint",
+            "status",
+            "requestId",
+            "docUrl",
+            "retryAfterSeconds"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "command",
+    "ok",
+    "exitCode",
+    "data",
+    "warnings",
+    "error"
+  ],
+  "additionalProperties": false
+}

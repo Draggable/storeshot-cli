@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "command": "generate",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "environment": "test",
+    "creditsCharged": 0,
+    "creditsRefunded": 0,
+    "waited": {
+      "seconds": 0,
+      "timedOut": false
+    },
+    "generations": [
+      {
+        "input": "01.png",
+        "uploadId": "up_1",
+        "id": "0b8e0000-0000-4000-8000-000000000001",
+        "status": "succeeded",
+        "environment": "test",
+        "store": "app_store",
+        "device": "app_store_1290x2796",
+        "width": 1290,
+        "height": 2796,
+        "creditsCharged": 0,
+        "creditsRefunded": 0,
+        "error": null
+      }
+    ],
+    "download": null
+  },
+  "warnings": [],
+  "error": null
+}

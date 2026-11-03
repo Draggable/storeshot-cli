@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "command": "set",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "mode": "quote",
+    "quote": {
+      "environment": "test",
+      "images": 5,
+      "credits": 0,
+      "availableCredits": 0,
+      "sufficient": true,
+      "screens": 2,
+      "breakdown": [
+        {
+          "store": "app_store",
+          "device": "app_store_1290x2796",
+          "width": 1290,
+          "height": 2796,
+          "orientation": "portrait",
+          "images": 2,
+          "defaulted": false
+        }
+      ]
+    },
+    "set": null,
+    "waited": null,
+    "download": null
+  },
+  "warnings": [],
+  "error": null
+}

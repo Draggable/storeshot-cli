@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "command": "devices",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "devices": [
+      {
+        "id": "app_store_1290x2796",
+        "store": "app_store",
+        "kind": "screenshot",
+        "label": "iPhone 6.9\"",
+        "width": 1290,
+        "height": 2796,
+        "orientations": [
+          "portrait",
+          "landscape"
+        ],
+        "deprecated": false,
+        "replacedBy": null
+      },
+      {
+        "id": "app_store_1179x2556",
+        "store": "app_store",
+        "kind": "screenshot",
+        "label": "iPhone 6.3\"",
+        "width": 1179,
+        "height": 2556,
+        "orientations": [
+          "portrait",
+          "landscape"
+        ],
+        "deprecated": false,
+        "replacedBy": null
+      },
+      {
+        "id": "google_play_1080x2160",
+        "store": "google_play",
+        "kind": "screenshot",
+        "label": "Phone",
+        "width": 1080,
+        "height": 2160,
+        "orientations": [
+          "portrait",
+          "landscape"
+        ],
+        "deprecated": false,
+        "replacedBy": null
+      },
+      {
+        "id": "google_play_1024x500",
+        "store": "google_play",
+        "kind": "feature_graphic",
+        "label": "Feature graphic",
+        "width": 1024,
+        "height": 500,
+        "orientations": [
+          "landscape"
+        ],
+        "deprecated": false,
+        "replacedBy": null
+      }
+    ]
+  },
+  "warnings": [],
+  "error": null
+}

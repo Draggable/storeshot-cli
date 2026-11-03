@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "command": "login",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "status": "pending",
+    "alreadyLinked": false,
+    "environment": "test",
+    "keyId": null,
+    "scopes": [],
+    "credentialsFile": null,
+    "userCode": "BCDF-GHJK",
+    "verificationUri": "https://console.storeshot.art/device",
+    "verificationUriComplete": "https://console.storeshot.art/device?code=BCDF-GHJK",
+    "expiresAt": "2026-11-03T10:10:00.000Z"
+  },
+  "warnings": [],
+  "error": null
+}

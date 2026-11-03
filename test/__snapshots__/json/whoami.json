@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "command": "whoami",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "user": {
+      "id": "u1",
+      "displayName": "Dev",
+      "email": null
+    },
+    "credential": {
+      "type": "api_key",
+      "environment": "test",
+      "scopes": [
+        "usage:read"
+      ],
+      "keyId": "k1",
+      "keyName": "ci",
+      "keyPrefix": "ss_test_ab",
+      "expiresAt": null
+    },
+    "keySource": "env",
+    "baseUrl": "https://api.storeshot.art/v1",
+    "credentialsFile": null
+  },
+  "warnings": [],
+  "error": null
+}

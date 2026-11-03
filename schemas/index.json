@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "envelope": "envelope.schema.json",
+  "captions": "captions.schema.json",
+  "commands": {
+    "login": "login.schema.json",
+    "logout": "logout.schema.json",
+    "whoami": "whoami.schema.json",
+    "credits": "credits.schema.json",
+    "devices": "devices.schema.json",
+    "generate": "generate.schema.json",
+    "set": "set.schema.json",
+    "status": "status.schema.json",
+    "pull": "pull.schema.json"
+  }
+}

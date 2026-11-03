@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "command": "credits",
+  "ok": true,
+  "exitCode": 0,
+  "data": {
+    "environment": "test",
+    "total": 4,
+    "balances": {
+      "starter": 4,
+      "subscription": 0,
+      "purchased": 0
+    }
+  },
+  "warnings": [],
+  "error": null
+}
